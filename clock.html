@@ -1,0 +1,112 @@
+<html>
+<head>
+    <style>
+        #clock {
+            width: 400px;
+            height: 400px;
+            border: 2px solid black;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .hand {
+            position: absolute;
+            background-color: black;
+            transform-origin: center bottom;
+        }
+
+        #hour-hand {
+            width: 6px;
+            height: 80px;
+            top: calc(50% - 80px);
+            left: calc(50% - 3px);
+        }
+
+        #minute-hand {
+            width: 4px;
+            height: 120px;
+            top: calc(50% - 120px);
+            left: calc(50% - 2px);
+        }
+
+        #second-hand {
+            width: 2px;
+            height: 140px;
+            top: calc(50% - 140px);
+            left: calc(50% - 1px);
+            background-color: red;
+        }
+
+        .hour-marker {
+            position: absolute;
+            font-size: 16px;
+            font-weight: bold;
+            transform-origin: center bottom;
+        }
+
+        .hour-marker-12 {
+            top: 10px;
+            left: calc(50% - 6px);
+        }
+
+        .hour-marker-6 {
+            bottom: 10px;
+            left: calc(50% - 6px);
+        }
+
+        .hour-marker-3 {
+            top: calc(50% - 6px);
+            right: 10px;
+        }
+
+        .hour-marker-9 {
+            top: calc(50% - 6px);
+            left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="clock">
+        <div class="hand" id="hour-hand"></div>
+        <div class="hand" id="minute-hand"></div>
+        <div class="hand" id="second-hand"></div>
+
+        <div class="hour-marker hour-marker-12">12</div>
+        <div class="hour-marker hour-marker-6">6</div>
+        <div class="hour-marker hour-marker-3">3</div>
+        <div class="hour-marker hour-marker-9">9</div>
+    </div>
+
+    <script>
+        // Pobranie referencji do elementów zegara
+        const hourHand = document.getElementById("hour-hand");
+        const minuteHand = document.getElementById("minute-hand");
+        const secondHand = document.getElementById("second-hand");
+
+        // Funkcja aktualizująca zegar
+        function updateClock() {
+            // Pobranie aktualnego czasu
+            const currentTime = new Date();
+            const hours = currentTime.getHours();
+            const minutes = currentTime.getMinutes();
+            const seconds = currentTime.getSeconds();
+
+            // Obliczenie kątów obrotu wskazówek
+            const secondAngle = (seconds / 60) * 360;
+            const minuteAngle = ((minutes + seconds / 60) / 60) * 360;
+            const hourAngle = ((hours + minutes / 60 + seconds / 3600) / 12) * 360;
+
+            // Ustawienie obrotów wskazówek
+            secondHand.style.transform = `rotate(${secondAngle}deg)`;
+            minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
+            hourHand.style.transform = `rotate(${hourAngle}deg)`;
+
+            // Wywołanie funkcji updateClock co sekundę
+            setTimeout(updateClock, 1000);
+        }
+
+        // Wywołanie funkcji updateClock po załadowaniu strony
+        window.onload = updateClock;
+    </script>
+</body>
+</html>
